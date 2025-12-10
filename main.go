@@ -3,12 +3,11 @@ package main
 import (
 	"errors"
 	"fmt"
-	"log"
 )
 
 var (
-	ErrNotImplemented = errors.New("Not Implemented")
-	ErrTruckNotFound  = errors.New("Truck Not Found")
+	ErrNotImplemented = errors.New("not implemented")
+	ErrTruckNotFound  = errors.New("truck not found")
 )
 
 type Truck interface {
@@ -61,42 +60,13 @@ func processTruck(truck Truck) error {
 	fmt.Printf("Processing Truck %+v \n", truck)
 	err := truck.LoadCargo() // ✅ declare once
 	if err != nil {
-		return fmt.Errorf("Error Loading Cargo: %w", err)
+		return fmt.Errorf("error loading cargo: %w", err)
 	}
 
 	err = truck.UnLoadCargo() // ✅ reuse, DO NOT use :=
 	if err != nil {
-		return fmt.Errorf("Error unloading Cargo: %w", err)
+		return fmt.Errorf("error unloading cargo: %w", err)
 	}
 
 	return nil
-}
-
-func main() {
-	nt := &NormalTruck{id: "1"}
-	et := &ElectricTruck{id: "2"}
-
-	person := make(map[string]any, 0)
-	person["name"] = "Tiago"
-	person["age"] = 42
-
-	age, exists := person["width"].(int)
-	if !exists {
-		log.Fatal("age not exists")
-		return
-	}
-	log.Println(age)
-
-	err := processTruck(nt)
-	if err != nil {
-		log.Fatalf("Error Processing Normal Truck: %s", err)
-	}
-
-	err = processTruck(et)
-	if err != nil {
-		log.Fatalf("Error Processing Electric Truck: %s", err)
-	}
-
-	log.Println(nt.cargo)
-	log.Println(et.battery)
 }
